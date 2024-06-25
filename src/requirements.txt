@@ -1,0 +1,11 @@
+requests==2.32.3
+schedule
+aiohttp
+PyYAML
+sqlalchemy
+pandas
+polars
+flatten_json
+
+
+

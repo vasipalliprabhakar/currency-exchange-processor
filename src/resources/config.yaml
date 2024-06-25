@@ -1,0 +1,7 @@
+exchange_api:
+  base_url: https://xecdapi.xe.com/v1/central_bank_rate.json/?central_bank=AUS&amount=1
+  api_id: self394332467
+  api_key: 9as8mjq5o6p8nvvhogk1useup9
+  to: NZD
+  start_date: 2024-06-20
+  total_days: 30
