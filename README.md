@@ -28,3 +28,13 @@ exchange_api:
   start_date: ${start_date}  -- start date of exchange poll
   total_days: 30        -- total number of days previous days from the start date 
 ````
+### Building the docker image for App
+````
+docker build -t exchange-app:v1 .
+
+````
+### Run App container
+````
+docker container run exchange-app:v1
+
+````
