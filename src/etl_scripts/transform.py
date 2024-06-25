@@ -1,9 +1,9 @@
 import polars as pl
+import pandas as pd
 from flatten_json import flatten_json
 
 
-def transform_response(json_records):
-    flatted_content = [flatten_json(rec) for rec in json_records]
+def transform_api_msg(json_records):
     schema = {
         'centralBankCode': pl.Utf8,
         'centralBankName': pl.Utf8,
@@ -15,7 +15,7 @@ def transform_response(json_records):
         'to_0_quotecurrency': pl.Utf8,
         'to_0_mid': pl.Float64,
     }
-    input_df = pl.DataFrame(flatted_content, schema=schema)
+    input_df = pl.DataFrame([flatten_json(rec) for rec in json_records], schema=schema)
 
     filter_df = input_df.select(
         pl.col("from"),
@@ -28,4 +28,3 @@ def transform_response(json_records):
                                   "to_0_quotecurrency": "to_currency",
                                   "to_0_mid": "conversion_rate"});
     return target_df.select(['from_currency', 'exchange_time', 'to_currency', 'conversion_rate'])
-

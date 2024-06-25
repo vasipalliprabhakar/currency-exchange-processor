@@ -1,29 +1,34 @@
 import polars as pl
 from datetime import datetime
-from schemas.db import db_connection, TABLE_NAME, RATES_BETWEEN_DATES_QRY
+import deltalake
+from pathlib import Path
 
 
-def save_exchange_rates(transformed_records: pl.DataFrame):
+def save_exchange_rates(transformed_records: pl.DataFrame, store_path: Path):
+    '''
+     save transformed JSON as delta table in DB STORE as delta tables in parquet format
+    :param transformed_records: transformed records from API response
+    :param store_path: storage location of DELTA tables
+    :return: None
+    '''
     try:
-        if not transformed_records.empty:
-            pd_df = transformed_records.to_pandas();
-            pd_df.to_sql(TABLE_NAME, con=db_connection, if_exists="replace")
+        transformed_records.write_delta(store_path, mode="overwrite", overwrite_schema=True)
     except Exception as ex:
-        print(f"Error saving exchange rates to DB, {ex}")
+        print(f"Error saving exchange rates to store, {ex}")
         False
     return True
 
 
-def get_all_exchanges_by_dates(start_date_str: str, end_date_str: str):
+def get_exchange_aggregates(store_path: Path, previous_date: datetime, current_date: datetime):
     try:
-        start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
-        end_date = datetime.strptime(end_date_str, "%Y-%m-%d")
-        RATES_BETWEEN_DATES_QRY.replace("%(start_date)",start_date).replace("%(end_date)",end_date)
-
-        df = pd.read_sql(RATES_BETWEEN_DATES_QRY, db_connection)
-        print(df)
+        df = pl.read_delta(store_path)
+        filter_df = df.filter(pl.col('exchange_time').cast(pl.Date).is_between(previous_date, current_date))
+        print(f"filtered records by dates, {filter_df}")
+        rank_df = filter_df.group_by("from_currency","to_currency")\
+            .agg(pl.max("conversion_rate").alias("best_rate"),
+                 pl.min("conversion_rate").alias("lowest_rate"),
+                 pl.mean("conversion_rate").alias("average_rate"))
+        return rank_df
     except Exception as ex:
         print(f"Error saving exchange rates to DB, {ex}")
-        False
-
 

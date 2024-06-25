@@ -18,5 +18,4 @@ class DateUtil:
             # subtract the timedelta with 1 day
             prev_date = input_date - day_delta
             dates_list.append(prev_date.strftime("%Y-%m-%d"))
-        print(dates_list)
         return dates_list

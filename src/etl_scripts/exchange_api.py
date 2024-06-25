@@ -1,9 +1,6 @@
 import asyncio
 import aiohttp
-from pathlib import Path
 from utilities import date_util
-
-CONFIG_FILE_PATH = Path(__file__).parent.parent.joinpath("resources/config.ini")
 
 
 async def fetch_data(url, credentials):
