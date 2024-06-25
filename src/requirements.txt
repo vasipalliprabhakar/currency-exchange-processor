@@ -1,3 +1,4 @@
+cython
 requests==2.32.3
 schedule
 aiohttp
@@ -7,7 +8,7 @@ sqlalchemy
 pandas
 polars-lts-cpu
 flatten-json==0.1.14
-deltalake
+
 
 
 

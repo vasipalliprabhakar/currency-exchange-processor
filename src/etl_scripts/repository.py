@@ -22,13 +22,14 @@ def save_exchange_rates(transformed_records: pl.DataFrame, store_path: Path):
 def get_exchange_aggregates(store_path: Path, previous_date: datetime, current_date: datetime):
     try:
         df = pl.read_delta(store_path)
-        filter_df = df.filter(pl.col('exchange_time').cast(pl.Date).is_between(previous_date, current_date))
+        new_df = df.unique()
+        filter_df = new_df.filter(pl.col('exchange_time').cast(pl.Date).is_between(previous_date, current_date))
         print(f"filtered records by dates, {filter_df}")
-        rank_df = filter_df.group_by("from_currency","to_currency")\
+        rank_df = filter_df.group_by("from_currency", "to_currency") \
             .agg(pl.max("conversion_rate").alias("best_rate"),
                  pl.min("conversion_rate").alias("lowest_rate"),
                  pl.mean("conversion_rate").alias("average_rate"))
-        return rank_df
+        print(rank_df)
+        return [rank_df.item(0, 2), rank_df.item(0, 3), rank_df.item(0, 4)]
     except Exception as ex:
         print(f"Error saving exchange rates to DB, {ex}")
-

@@ -37,8 +37,11 @@ def main_job():
     # Load exchange rate to DB
     save_exchange_rates(transformed_msg, db_path)
     print("Saved records to Delta storage!!")
-    print(get_exchange_aggregates(db_path, datetime.strptime('2024-05-12', DATE_FORMAT),
-                                     datetime.strptime('2024-06-25', DATE_FORMAT)))
+    ranks = get_exchange_aggregates(db_path, datetime.strptime('2024-05-12', DATE_FORMAT),
+                                    datetime.strptime('2024-06-25', DATE_FORMAT))
+    print(f" best exchange rate - {ranks[0]}")
+    print(f" lowest exchange rate  - {ranks[1]}")
+    print(f" average exchange rate - {ranks[2]}")
 
 
 if __name__ == "__main__":
