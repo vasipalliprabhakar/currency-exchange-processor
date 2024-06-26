@@ -13,11 +13,16 @@ Note: The application used python temporary folder location to use to storage la
 ### How to build the app
 ````
  cd curency-exchange-processor
- python3 -m pip install --upgrade pip
- python3 -m pip install deltalake aiohttp flatten-json
- python3 -m pip install -r /app/src/requirements.txt
+ poetry env use /path/to/python/installtion
+ poetry install
  python ./src/etl_scripts/job_runner.py
 ````
+
+### How to test the App
+```
+ poetry run pytest
+```
+
 ### API Configuration used
 ````
 exchange_api:

@@ -1,6 +1,5 @@
 import polars as pl
 from datetime import datetime
-import deltalake
 from pathlib import Path
 
 

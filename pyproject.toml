@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "currency-exchange-processor"
+version = "0.1.0"
+description = " exchange data processor"
+authors = ["prabhakara <vasipalli.prabhakar@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.scripts]
+job-start = "src.etl_scripts.job_runner:start"
+
+[tool.pytest.ini_options]
+pythonpath = "src/"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+aiohttp = "^3.9.5"
+deltalake = "^0.18.1"
+pyyaml = "^6.0.1"
+requests = "^2.32.3"
+flatten-json = "~0.1.14"
+polars-lts-cpu = "^0.20.31"
+pytest = "^8.2.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

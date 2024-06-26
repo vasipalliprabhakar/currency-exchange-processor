@@ -17,7 +17,7 @@ DATE_FORMAT = '%Y-%m-%d'
 db_path = os.path.join(tempfile.TemporaryDirectory().name, "exchange.delta")
 
 
-def main_job():
+def start():
     """
     Service orchestration to call extract, transform and load logic
     :return: None
@@ -28,7 +28,7 @@ def main_job():
 
     # Call API asynchronous 30 times for given configuration
     results = asyncio.run(make_api_calls(config_params))
-    print(f"Total records received from API : {len(results)}")
+    print(f"Total records received from API : {(results)}")
 
     # Transform the results
     transformed_msg = transform_api_msg(results)
@@ -45,4 +45,4 @@ def main_job():
 
 
 if __name__ == "__main__":
-    main_job()
+    start()

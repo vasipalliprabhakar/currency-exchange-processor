@@ -6,3 +6,4 @@ src/__pycache__/
 src/etl_scripts/__pycache__/
 src/etl_scripts/schemas/__pycache__/
 src/etl_scripts/utilities/__pycache__/
+src/tests/__pycache__/

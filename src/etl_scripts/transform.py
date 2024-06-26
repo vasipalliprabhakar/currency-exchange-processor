@@ -1,5 +1,4 @@
 import polars as pl
-import pandas as pd
 from flatten_json import flatten_json
 
 
